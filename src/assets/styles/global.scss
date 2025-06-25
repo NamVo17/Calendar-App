@@ -1,0 +1,182 @@
+@use "@/assets/styles/variables.scss" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: $gray-900;
+  background-color: $white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Hide scrollbars globally
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* WebKit browsers */
+}
+
+// BEM Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @media (min-width: $breakpoint-sm) {
+    padding: 0 $spacing-lg;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.text {
+  &--center {
+    text-align: center;
+  }
+
+  &--left {
+    text-align: left;
+  }
+
+  &--right {
+    text-align: right;
+  }
+}
+
+.flex {
+  display: flex;
+
+  &--col {
+    flex-direction: column;
+  }
+
+  &--center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &--between {
+    justify-content: space-between;
+  }
+
+  &--items-center {
+    align-items: center;
+  }
+}
+
+.w {
+  &--full {
+    width: 100%;
+  }
+}
+
+.h {
+  &--full {
+    height: 100%;
+  }
+
+  &--screen {
+    min-height: 100vh;
+  }
+}
+
+// Animation classes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+
+  &--delayed {
+    animation: fadeIn 0.5s ease-out 0.2s both;
+  }
+}
+
+// Custom scrollbar for specific elements
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $gray-300 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    display: block;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-300;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: $gray-400;
+    }
+  }
+}
+
+// Responsive utilities
+.hidden {
+  display: none;
+}
+
+@media (min-width: $breakpoint-sm) {
+  .sm {
+    &--block {
+      display: block;
+    }
+    
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .md {
+    &--block {
+      display: block;
+    }
+    
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  .lg {
+    &--block {
+      display: block;
+    }
+    
+    &--hidden {
+      display: none;
+    }
+  }
+}

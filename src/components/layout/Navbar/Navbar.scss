@@ -1,0 +1,217 @@
+@use "sass:color";
+@use "@/assets/styles/variables.scss" as *;
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-fixed;
+  padding: $spacing-md $spacing-lg;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__menu-icon {
+    color: $white;
+    width: 24px;
+    height: 24px;
+  }
+
+  &__brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $white;
+    text-decoration: none;
+    text-shadow: 0 2px 4px rgba($black, 0.3);
+
+    @media (max-width: $breakpoint-md) {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__search {
+    position: relative;
+    display: none;
+
+    @media (min-width: $breakpoint-md) {
+      display: block;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba($white, 0.7);
+    width: 16px;
+    height: 16px;
+  }
+
+  &__search-input {
+    background: rgba($white, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba($white, 0.2);
+    border-radius: 24px;
+    padding: 8px 16px 8px 40px;
+    color: $white;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all $transition-fast;
+
+    &::placeholder {
+      color: rgba($white, 0.7);
+    }
+
+    &:focus {
+      border-color: rgba($white, 0.4);
+      box-shadow: 0 0 0 2px rgba($white, 0.1);
+    }
+  }
+
+  &__settings-icon {
+    color: $white;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__user {
+    position: relative;
+  }
+
+  &__user-button {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    background: rgba($white, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba($white, 0.2);
+    border-radius: 24px;
+    padding: 8px 12px;
+    color: $white;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: rgba($white, 0.2);
+    }
+  }
+
+  &__user-avatar {
+    width: 24px;
+    height: 24px;
+    background: $primary-color;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: none;
+
+    @media (min-width: $breakpoint-md) {
+      display: block;
+    }
+  }
+
+  &__user-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: rgba($white, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba($white, 0.3);
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-xl;
+    min-width: 200px;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  &__user-info {
+    padding: $spacing-md;
+    border-bottom: 1px solid rgba($gray-200, 0.5);
+  }
+
+  &__user-info-name {
+    font-weight: 600;
+    color: $gray-800;
+    margin: 0;
+  }
+
+  &__user-info-email {
+    font-size: 0.875rem;
+    color: $gray-600;
+    margin: 0;
+  }
+
+  &__user-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background: none;
+    border: none;
+    color: $gray-700;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: rgba($gray-100, 0.8);
+    }
+  }
+
+  &__login-button {
+    width: 40px;
+    height: 40px;
+    background: $primary-color;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    text-decoration: none;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: color.adjust($primary-color, $lightness: -10%);
+      transform: scale(1.05);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

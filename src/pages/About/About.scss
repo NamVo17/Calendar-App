@@ -1,0 +1,27 @@
+@use "@/assets/styles/variables.scss" as *;
+
+.about {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
+
+  &__container {
+    text-align: center;
+    max-width: 600px;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $gray-900;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__description {
+    font-size: 1.125rem;
+    color: $gray-600;
+    line-height: 1.6;
+  }
+}

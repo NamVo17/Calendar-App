@@ -1,0 +1,25 @@
+{
+  "name": "my-v0-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "echo 'no build script'"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "sass-embedded": "^1.89.2",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
+    "antd": "^5.26.1",
+    "classnames": "^2.5.1",
+    "lucide-react": "^0.522.0",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.6.2"
+  }
+}
