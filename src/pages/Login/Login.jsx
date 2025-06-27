@@ -1,72 +1,51 @@
-// Directive cho Next.js (không cần thiết trong React thuần)
 "use client"
 
-// Import React hooks
 import { useState } from "react"
-// Import React Router hooks
 import { useNavigate, Link } from "react-router-dom"
-// Import Redux hooks
 import { useDispatch, useSelector } from "react-redux"
-// Import Redux async actions
 import { loginAsync, registerAsync } from "@/store/slices/authSlice"
-// Import UI components
 import { Button } from "@/components/ui"
-// Import SCSS styles
 import "./Login.scss"
 
-// Login component - xử lý cả login và register
 export const Login = () => {
-  // Hook để navigate programmatically
   const navigate = useNavigate()
-  // Hook để dispatch Redux actions
   const dispatch = useDispatch()
-  // Lấy auth state từ Redux store
   const { isLoading, error } = useSelector((state) => state.auth)
 
-  // Local state để quản lý form mode (login hoặc register)
-  const [authMode, setAuthMode] = useState("login") // "login" hoặc "register"
+  const [authMode, setAuthMode] = useState("login") 
 
-  // Local state để quản lý form data
   const [formData, setFormData] = useState({
-    username: "", // Username input
-    email: "", // Email input (chỉ dùng cho register)
-    password: "", // Password input
-    fullName: "", // Full name input (chỉ dùng cho register)
+    username: "", 
+    email: "", 
+    password: "", 
+    fullName: "", 
   })
 
-  // Function xử lý thay đổi input trong form
   const handleInputChange = (e) => {
-    const { name, value } = e.target // Destructure name và value từ input element
-    // Update formData state với giá trị mới
+    const { name, value } = e.target 
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  // Async function xử lý submit form
   const handleSubmit = async (e) => {
-    e.preventDefault() // Prevent default form submission behavior
+    e.preventDefault() 
 
     try {
       if (authMode === "login") {
-        // Nếu đang ở login mode
         await dispatch(
           loginAsync({
-            username: formData.username, // Username hoặc email
+            username: formData.username, 
             password: formData.password,
           }),
-        ).unwrap() // unwrap() để throw error nếu action bị reject
+        ).unwrap() 
       } else {
-        // Nếu đang ở register mode
         await dispatch(registerAsync(formData)).unwrap() // Pass toàn bộ formData
       }
-      // Nếu thành công, redirect về home page thay vì dashboard
       navigate("/")
     } catch (error) {
-      // Log error (error sẽ được hiển thị qua Redux state)
       console.error("Auth error:", error)
     }
   }
 
-  // JSX return
   return (
     <div className="login">
       {/* Background Image */}
@@ -81,19 +60,14 @@ export const Login = () => {
       {/* Login Card Container */}
       <div className="login__container">
         <div className="login__card">
-          {/* Dynamic Title dựa trên authMode */}
           <h1 className="login__title">{authMode === "login" ? "Welcome Back" : "Create Account"}</h1>
-          {/* Dynamic Subtitle */}
           <p className="login__subtitle">
             {authMode === "login" ? "Sign in to your account to continue" : "Join us to manage your calendar"}
           </p>
 
-          {/* Error Message - hiển thị nếu có error từ Redux */}
           {error && <div className="login__error">{error}</div>}
 
-          {/* Login/Register Form */}
           <form onSubmit={handleSubmit} className="login__form">
-            {/* Full Name Field - chỉ hiển thị khi register */}
             {authMode === "register" && (
               <div className="login__form-group">
                 <label className="login__form-label">Full Name</label>
@@ -153,13 +127,11 @@ export const Login = () => {
               />
             </div>
 
-            {/* Submit Button - text và loading state thay đổi theo mode */}
             <Button type="submit" className="login__submit-btn" loading={isLoading}>
               {authMode === "login" ? "Sign In" : "Create Account"}
             </Button>
           </form>
 
-          {/* Mode Switch - cho phép chuyển đổi giữa login và register */}
           <div className="login__switch">
             <p>
               {authMode === "login" ? "Don't have an account? " : "Already have an account? "}

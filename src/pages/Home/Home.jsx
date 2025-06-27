@@ -1,27 +1,17 @@
-// Directive cho Next.js (không cần thiết trong React thuần)
 "use client"
 
-// Import React hooks
 import { useState, useEffect } from "react"
-// Import useDispatch để dispatch Redux actions
 import { useDispatch } from "react-redux"
-// Import các icons từ lucide-react
 import { ChevronLeft, ChevronRight, Plus, Clock, MapPin, Users, Calendar } from "lucide-react"
-// Import custom hooks
 import { useAuth } from "@/hooks/useAuth"
 import { useCalendar } from "@/hooks/useCalendar"
 import { useEvents } from "@/hooks/useEvents"
-// Import UI components
 import { Button, Modal } from "@/components/ui"
-// Import SCSS styles
 import "./Home.scss"
 
-// Main Home component
 export const Home = () => {
-  // Redux dispatch hook
   const dispatch = useDispatch()
 
-  // Custom hooks để lấy state và functions
   const { isAuthenticated, currentUser } = useAuth() // Authentication state
   const { events, createEvent, selectEvent, selectedEvent, clearSelectedEvent } = useEvents() // Events state
   const {
@@ -36,30 +26,27 @@ export const Home = () => {
     goToNextMonth,
     setSelectedWeekStart,
     setCurrentDate,
-  } = useCalendar() // Calendar state
+  } = useCalendar() 
 
-  // Local state cho new event form
   const [newEvent, setNewEvent] = useState({
-    id: 0, // ID sẽ được generate
-    title: "", // Tiêu đề event
-    startTime: "09:00", // Thời gian bắt đầu
-    endTime: "10:00", // Thời gian kết thúc
-    color: "bg-blue-500", // Màu sắc event
+    id: 0, 
+    title: "", 
+    startTime: "09:00", 
+    endTime: "10:00", 
+    color: "bg-blue-500", 
     date: new Date().toISOString().split("T")[0], // Ngày event (YYYY-MM-DD format)
-    description: "", // Mô tả event
-    location: "", // Địa điểm
-    attendees: [], // Danh sách người tham gia
-    organizer: "You", // Người tổ chức
-    user_id: null, // ID của user tạo event
+    description: "", 
+    location: "", 
+    attendees: [], 
+    organizer: "You", 
+    user_id: null, 
   })
 
-  // Local state khác
-  const [attendeeInput, setAttendeeInput] = useState("") // Input để thêm attendee
-  const [isLoaded, setIsLoaded] = useState(false) // Trạng thái đã load xong
-  const [showCreateEventModal, setShowCreateEventModal] = useState(false) // Hiển thị modal tạo event
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false) // Hiển thị welcome message
+  const [attendeeInput, setAttendeeInput] = useState("") 
+  const [isLoaded, setIsLoaded] = useState(false) 
+  const [showCreateEventModal, setShowCreateEventModal] = useState(false) 
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false) 
 
-  // Array các màu sắc có thể chọn cho event
   const colorOptions = [
     { name: "Blue", value: "bg-blue-500" },
     { name: "Green", value: "bg-green-500" },
@@ -73,94 +60,77 @@ export const Home = () => {
     { name: "Red", value: "bg-red-500" },
   ]
 
-  // useEffect để set isLoaded sau khi component mount
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
-  // useEffect để hiển thị welcome message khi user login
   useEffect(() => {
     if (isAuthenticated && currentUser) {
       setShowWelcomeMessage(true)
-      // Tự động ẩn message sau 3 giây
       const timer = setTimeout(() => {
         setShowWelcomeMessage(false)
       }, 3000)
 
-      // Cleanup timer khi component unmount hoặc dependencies thay đổi
       return () => clearTimeout(timer)
     }
   }, [isAuthenticated, currentUser])
 
-  // Function để tính toán các ngày trong tuần từ ngày bắt đầu
   const getWeekDates = (startDate) => {
     const week = []
     const start = new Date(startDate)
-    const day = start.getDay() // 0 = Chủ nhật, 1 = Thứ 2, ...
-    start.setDate(start.getDate() - day) // Set về Chủ nhật
+    const day = start.getDay() 
+    start.setDate(start.getDate() - day) 
 
-    // Tạo array 7 ngày trong tuần
     for (let i = 0; i < 7; i++) {
       const date = new Date(start)
       date.setDate(start.getDate() + i)
-      week.push(date.getDate()) // Chỉ lấy số ngày
+      week.push(date.getDate()) 
     }
     return week
   }
 
-  // Function để format tháng hiện tại thành string
   const formatCurrentMonth = (date) => {
     return date.toLocaleDateString("en-US", { month: "long", year: "numeric" })
   }
 
-  // Function để lấy tất cả ngày trong tháng cho mini calendar
   const getDaysInMonth = (date) => {
     const year = date.getFullYear()
     const month = date.getMonth()
-    const firstDay = new Date(year, month, 1) // Ngày đầu tháng
-    const lastDay = new Date(year, month + 1, 0) // Ngày cuối tháng
-    const daysInMonth = lastDay.getDate() // Số ngày trong tháng
-    const firstDayOfWeek = firstDay.getDay() // Thứ mấy của ngày đầu tháng
+    const firstDay = new Date(year, month, 1) 
+    const lastDay = new Date(year, month + 1, 0) 
+    const daysInMonth = lastDay.getDate() 
+    const firstDayOfWeek = firstDay.getDay() 
 
     const days = []
-    // Thêm các ô trống cho những ngày trước ngày đầu tháng
     for (let i = 0; i < firstDayOfWeek; i++) {
       days.push(null)
     }
-    // Thêm tất cả ngày trong tháng
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(i)
     }
     return days
   }
 
-  // Function xử lý khi click vào event
   const handleEventClick = (event) => {
-    selectEvent(event) // Set event làm selected event
+    selectEvent(event) 
   }
 
-  // Constants
-  const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] // Tên các ngày trong tuần
-  const weekDates = getWeekDates(selectedWeekStart) // Các ngày trong tuần hiện tại
-  const timeSlots = Array.from({ length: 9 }, (_, i) => i + 8) // Time slots từ 8AM đến 4PM
+  
+  const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] 
+  const weekDates = getWeekDates(selectedWeekStart) 
+  const timeSlots = Array.from({ length: 9 }, (_, i) => i + 8) 
 
-  // Function để tính toán style cho event dựa trên thời gian
   const calculateEventStyle = (startTime, endTime) => {
-    // Parse start time thành số (ví dụ: "09:30" -> 9.5)
     const start = Number.parseInt(startTime.split(":")[0]) + Number.parseInt(startTime.split(":")[1]) / 60
-    // Parse end time thành số
     const end = Number.parseInt(endTime.split(":")[0]) + Number.parseInt(endTime.split(":")[1]) / 60
-    // Tính position và height (mỗi giờ = 80px, bắt đầu từ 8AM)
     const top = (start - 8) * 80
     const height = (end - start) * 80
     return { top: `${top}px`, height: `${height}px` }
   }
 
-  // Computed values
   const miniCalendarDays = getDaysInMonth(currentDate) // Ngày trong tháng cho mini calendar
   const currentMonth = formatCurrentMonth(currentDate) // Tên tháng hiện tại
 
-  // Mock data cho "My Calendars" section
   const myCalendars = [
     { name: "My Calendar", color: "bg-blue-500" },
     { name: "Work", color: "bg-green-500" },
@@ -168,33 +138,27 @@ export const Home = () => {
     { name: "Family", color: "bg-orange-500" },
   ]
 
-  // Function để tính ngày trong tuần từ date string
   const calculateDayFromDate = (dateString) => {
     const date = new Date(dateString)
-    return date.getDay() // 0 = Chủ nhật, 1 = Thứ 2, ...
+    return date.getDay() 
   }
 
-  // Function xử lý khi click Create button
   const handleCreateEvent = () => {
-    // Nếu chưa login, redirect đến login page
     if (!currentUser) {
       window.location.href = "/login"
       return
     }
 
-    // Hiển thị modal tạo event
     setShowCreateEventModal(true)
 
-    // Tạo date string cho hôm nay
     const now = new Date()
     const year = now.getFullYear()
-    const month = String(now.getMonth() + 1).padStart(2, "0") // Tháng bắt đầu từ 0
+    const month = String(now.getMonth() + 1).padStart(2, "0") 
     const day = String(now.getDate()).padStart(2, "0")
     const todayString = `${year}-${month}-${day}`
 
-    // Reset new event form với default values
     setNewEvent({
-      id: Math.max(0, ...events.map((e) => e.id)) + 1, // Generate ID mới
+      id: Math.max(0, ...events.map((e) => e.id)) + 1, 
       title: "",
       startTime: "09:00",
       endTime: "10:00",
@@ -203,95 +167,80 @@ export const Home = () => {
       description: "",
       location: "",
       attendees: [],
-      organizer: currentUser.fullName, // Set organizer là current user
+      organizer: currentUser.fullName, 
       user_id: currentUser.id,
     })
-    setAttendeeInput("") // Clear attendee input
+    setAttendeeInput("") 
   }
 
-  // Function xử lý thay đổi input trong form
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    // Update newEvent state với giá trị mới
     setNewEvent((prev) => ({ ...prev, [name]: value }))
   }
 
-  // Function để thêm attendee vào danh sách
   const handleAddAttendee = () => {
     if (attendeeInput.trim()) {
-      // Chỉ thêm nếu input không rỗng
       setNewEvent((prev) => ({
         ...prev,
-        attendees: [...prev.attendees, attendeeInput.trim()], // Thêm vào array
+        attendees: [...prev.attendees, attendeeInput.trim()], 
       }))
-      setAttendeeInput("") // Clear input
+      setAttendeeInput("") 
     }
   }
 
-  // Function để xóa attendee khỏi danh sách
   const handleRemoveAttendee = (index) => {
     setNewEvent((prev) => ({
       ...prev,
-      attendees: prev.attendees.filter((_, i) => i !== index), // Filter bỏ attendee tại index
+      attendees: prev.attendees.filter((_, i) => i !== index), 
     }))
   }
 
-  // Function xử lý submit form tạo event
   const handleSubmitEvent = async (e) => {
-    e.preventDefault() // Prevent default form submission
+    e.preventDefault() 
 
-    // Validation: kiểm tra title không rỗng
     if (!newEvent.title) {
       alert("Please enter an event title")
       return
     }
 
-    // Gọi createEvent function từ useEvents hook
     const result = await createEvent(newEvent)
     if (result.success) {
-      setShowCreateEventModal(false) // Đóng modal nếu thành công
+      setShowCreateEventModal(false) 
     } else {
-      alert("Failed to create event") // Hiển thị error nếu thất bại
+      alert("Failed to create event") 
     }
   }
 
-  // Function để format range của tuần hiện tại
+
   const formatCurrentWeekRange = (weekStart) => {
     const start = new Date(weekStart)
     const end = new Date(weekStart)
-    end.setDate(end.getDate() + 6) // Cuối tuần = đầu tuần + 6 ngày
-
+    end.setDate(end.getDate() + 6) 
     const startMonth = start.toLocaleDateString("en-US", { month: "short" })
     const endMonth = end.toLocaleDateString("en-US", { month: "short" })
     const startDay = start.getDate()
     const endDay = end.getDate()
     const year = start.getFullYear()
 
-    // Nếu cùng tháng: "Jan 1 - 7, 2025"
     if (startMonth === endMonth) {
       return `${startMonth} ${startDay} - ${endDay}, ${year}`
     } else {
-      // Nếu khác tháng: "Jan 30 - Feb 5, 2025"
       return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`
     }
   }
 
-  // Function xử lý click vào ngày trong mini calendar
   const handleMiniCalendarDateClick = (day) => {
-    if (!day) return // Ignore nếu click vào ô trống
+    if (!day) return 
 
-    // Tạo Date object cho ngày được click
     const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-    const dayOfWeek = clickedDate.getDay() // Thứ mấy trong tuần
+    const dayOfWeek = clickedDate.getDay() 
     const weekStart = new Date(clickedDate)
-    weekStart.setDate(clickedDate.getDate() - dayOfWeek) // Tính ngày đầu tuần
+    weekStart.setDate(clickedDate.getDate() - dayOfWeek) 
 
-    // Update calendar state để navigate đến tuần chứa ngày được click
     setSelectedWeekStart(weekStart)
     setCurrentDate(clickedDate)
   }
 
-  // JSX return
   return (
     <div className="home">
       {/* Background Image */}

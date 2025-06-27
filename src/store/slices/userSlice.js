@@ -1,80 +1,59 @@
-// Import createSlice và createAsyncThunk từ Redux Toolkit
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-// Import userService để gọi API user-related
 import { userService } from "@/services/userService"
 
-// Định nghĩa initial state cho user slice
 const initialState = {
-  // Lấy current user từ localStorage nếu có, nếu không thì null
   currentUser: JSON.parse(localStorage.getItem("current-user") || "null"),
-  users: [], // Danh sách tất cả users
-  isLoading: false, // Trạng thái loading
-  error: null, // Error message nếu có lỗi
+  users: [], 
+  isLoading: false, 
+  error: null, 
 }
 
-// Async thunk để fetch danh sách users
 export const fetchUsersAsync = createAsyncThunk(
-  "user/fetchUsers", // Action type prefix
+  "user/fetchUsers", 
   async (_, { rejectWithValue }) => {
-    // Không cần parameters
     try {
-      // Gọi userService để lấy danh sách users
       return await userService.getUsers()
     } catch (error) {
-      // Nếu có lỗi, reject với error message
       return rejectWithValue(error.message || "Failed to fetch users")
     }
   },
 )
 
-// Async thunk để tạo user mới
 export const createUserAsync = createAsyncThunk(
-  "user/createUser", // Action type prefix
+  "user/createUser", 
   async (userData, { rejectWithValue }) => {
-    // userData: thông tin user mới
     try {
-      // Gọi userService để tạo user mới
+      
       return await userService.createUser(userData)
     } catch (error) {
-      // Nếu có lỗi, reject với error message
       return rejectWithValue(error.message || "Failed to create user")
     }
   },
 )
 
-// Async thunk để update user
 export const updateUserAsync = createAsyncThunk(
-  "user/updateUser", // Action type prefix
+  "user/updateUser", 
   async (userData, { rejectWithValue }) => {
-    // userData: thông tin user cần update
     try {
-      // Gọi userService để update user
       return await userService.updateUser(userData)
     } catch (error) {
-      // Nếu có lỗi, reject với error message
       return rejectWithValue(error.message || "Failed to update user")
     }
   },
 )
 
-// Tạo user slice với createSlice
 export const userSlice = createSlice({
-  name: "user", // Tên của slice
-  initialState, // Initial state đã định nghĩa ở trên
-  // Synchronous reducers
+  name: "user", 
+  initialState, 
   reducers: {
-    // Action để set current user
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload // User object hoặc null
       if (action.payload) {
-        // Nếu có user, lưu vào localStorage
         localStorage.setItem("current-user", JSON.stringify(action.payload))
       } else {
-        // Nếu null, xóa khỏi localStorage
         localStorage.removeItem("current-user")
       }
     },
-    // Action để clear error message
     clearError: (state) => {
       state.error = null
     },
@@ -121,5 +100,4 @@ export const userSlice = createSlice({
   },
 })
 
-// Export các action creators
 export const { setCurrentUser, clearError } = userSlice.actions

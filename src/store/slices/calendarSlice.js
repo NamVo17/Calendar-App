@@ -1,19 +1,16 @@
-// Import createSlice từ Redux Toolkit (không cần async thunk vì chỉ có sync actions)
 import { createSlice } from "@reduxjs/toolkit"
 
-// Định nghĩa initial state cho calendar slice
 const initialState = {
-  currentView: "week", // View hiện tại: "day", "week", hoặc "month"
-  currentDate: new Date(2025, 5, 22), // Ngày hiện tại (June 22, 2025) - tháng 5 = June vì tháng bắt đầu từ 0
-  selectedWeekStart: new Date(2025, 5, 22), // Ngày bắt đầu của tuần đang được chọn
-  isLoading: false, // Trạng thái loading (hiện tại không sử dụng)
+  currentView: "week", 
+  currentDate: new Date(2025, 5, 22), 
+  selectedWeekStart: new Date(2025, 5, 22), 
+  isLoading: false, 
 }
 
 // Tạo calendar slice với createSlice
 export const calendarSlice = createSlice({
-  name: "calendar", // Tên của slice
-  initialState, // Initial state đã định nghĩa ở trên
-  // Tất cả reducers đều là synchronous
+  name: "calendar", 
+  initialState, 
   reducers: {
     // Action để set current view (day/week/month)
     setCurrentView: (state, action) => {
@@ -64,7 +61,6 @@ export const calendarSlice = createSlice({
   },
 })
 
-// Export tất cả action creators
 export const {
   setCurrentView,
   setCurrentDate,

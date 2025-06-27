@@ -21,5 +21,4 @@ export const publicRoutes = [
 ]
 
 export const privateRoutes = [
-  // Removed Dashboard - all functionality is in Home page
 ]
