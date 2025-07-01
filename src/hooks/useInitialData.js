@@ -10,17 +10,8 @@ export const useInitialData = () => {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const savedData = localStorage.getItem("calendar-data")
-
-        if (!savedData) {
-          const response = await fetch("/database.json")
-          if (response.ok) {
-            const data = await response.json()
-            localStorage.setItem("calendar-data", JSON.stringify(data))
-            console.log("Initial data loaded from database.json")
-          }
-        }
-
+        // Không cần load data từ database.json nữa vì sẽ lấy từ server
+        console.log("Initial data will be loaded from server")
         dispatch(fetchUsersAsync())
       } catch (error) {
         console.error("Error loading initial data:", error)

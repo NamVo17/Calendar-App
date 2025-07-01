@@ -15,6 +15,14 @@
       "password": "password123",
       "fullName": "John Doe",
       "createdAt": "2025-06-23"
+    },
+    {
+      "id": 3,
+      "username": "NamVo",
+      "email": "vocongnam172@gmail.com",
+      "password": "1234567890",
+      "fullName": "Vo Cong Nam",
+      "createdAt": "2025-07-01"
     }
   ],
   "events": [
@@ -27,7 +35,11 @@
       "date": "2025-06-15",
       "description": "Weekly team sync-up",
       "location": "Conference Room A",
-      "attendees": ["John Doe", "Jane Smith", "Bob Johnson"],
+      "attendees": [
+        "John Doe",
+        "Jane Smith",
+        "Bob Johnson"
+      ],
       "organizer": "Alice Brown",
       "user_id": 2
     },
@@ -40,7 +52,9 @@
       "date": "2025-06-16",
       "description": "Discuss project timeline",
       "location": "Cafe Nero",
-      "attendees": ["Sarah Lee"],
+      "attendees": [
+        "Sarah Lee"
+      ],
       "organizer": "You",
       "user_id": 1
     },
@@ -53,7 +67,10 @@
       "date": "2025-06-18",
       "description": "Q2 project progress review",
       "location": "Meeting Room 3",
-      "attendees": ["Team Alpha", "Stakeholders"],
+      "attendees": [
+        "Team Alpha",
+        "Stakeholders"
+      ],
       "organizer": "Project Manager",
       "user_id": 1
     },
@@ -66,7 +83,10 @@
       "date": "2025-06-17",
       "description": "Quarterly review with major client",
       "location": "Zoom Meeting",
-      "attendees": ["Client Team", "Sales Team"],
+      "attendees": [
+        "Client Team",
+        "Sales Team"
+      ],
       "organizer": "Account Manager",
       "user_id": 1
     },
@@ -79,7 +99,10 @@
       "date": "2025-06-19",
       "description": "Ideation session for new product features",
       "location": "Creative Space",
-      "attendees": ["Product Team", "Design Team"],
+      "attendees": [
+        "Product Team",
+        "Design Team"
+      ],
       "organizer": "Product Owner",
       "user_id": 2
     },
@@ -92,7 +115,10 @@
       "date": "2025-06-20",
       "description": "Showcase new features to stakeholders",
       "location": "Demo Room",
-      "attendees": ["Stakeholders", "Dev Team"],
+      "attendees": [
+        "Stakeholders",
+        "Dev Team"
+      ],
       "organizer": "Tech Lead",
       "user_id": 2
     },
@@ -105,7 +131,9 @@
       "date": "2025-06-21",
       "description": "Discuss Q3 marketing strategy",
       "location": "Marketing Office",
-      "attendees": ["Marketing Team"],
+      "attendees": [
+        "Marketing Team"
+      ],
       "organizer": "Marketing Director",
       "user_id": 2
     },
@@ -118,7 +146,9 @@
       "date": "2025-06-22",
       "description": "Review pull requests for new feature",
       "location": "Dev Area",
-      "attendees": ["Dev Team"],
+      "attendees": [
+        "Dev Team"
+      ],
       "organizer": "Senior Developer",
       "user_id": 1
     },
@@ -131,7 +161,9 @@
       "date": "2025-06-17",
       "description": "Daily team standup",
       "location": "Slack Huddle",
-      "attendees": ["Development Team"],
+      "attendees": [
+        "Development Team"
+      ],
       "organizer": "Scrum Master",
       "user_id": 1
     },
@@ -144,7 +176,10 @@
       "date": "2025-06-20",
       "description": "Review new UI designs",
       "location": "Design Lab",
-      "attendees": ["UX Team", "Product Manager"],
+      "attendees": [
+        "UX Team",
+        "Product Manager"
+      ],
       "organizer": "Lead Designer",
       "user_id": 2
     },
@@ -157,7 +192,10 @@
       "date": "2025-06-22",
       "description": "Quarterly investor update",
       "location": "Board Room",
-      "attendees": ["Executive Team", "Investors"],
+      "attendees": [
+        "Executive Team",
+        "Investors"
+      ],
       "organizer": "CEO",
       "user_id": 1
     },
@@ -170,7 +208,9 @@
       "date": "2025-06-19",
       "description": "New tool onboarding session",
       "location": "Training Room",
-      "attendees": ["All Departments"],
+      "attendees": [
+        "All Departments"
+      ],
       "organizer": "HR",
       "user_id": 1
     },
@@ -183,7 +223,10 @@
       "date": "2025-06-18",
       "description": "Quarterly budget analysis",
       "location": "Finance Office",
-      "attendees": ["Finance Team", "Department Heads"],
+      "attendees": [
+        "Finance Team",
+        "Department Heads"
+      ],
       "organizer": "CFO",
       "user_id": 2
     },
@@ -196,7 +239,10 @@
       "date": "2025-06-21",
       "description": "Present new project proposal",
       "location": "Client Office",
-      "attendees": ["Sales Team", "Client Representatives"],
+      "attendees": [
+        "Sales Team",
+        "Client Representatives"
+      ],
       "organizer": "Account Executive",
       "user_id": 2
     },
@@ -209,7 +255,10 @@
       "date": "2025-06-16",
       "description": "Roadmap discussion for Q3",
       "location": "Strategy Room",
-      "attendees": ["Product Team", "Engineering Leads"],
+      "attendees": [
+        "Product Team",
+        "Engineering Leads"
+      ],
       "organizer": "Product Manager",
       "user_id": 2
     }

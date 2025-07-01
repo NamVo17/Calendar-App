@@ -4,16 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "echo 'no build script'"
+    "build": "echo 'no build script'",
+    "server": "cd server && npm start",
+    "server:install": "cd server && npm install",
+    "dev:full": "concurrently \"npm run dev\" \"npm run server\""
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.6.0",
+    "concurrently": "^8.2.2",
     "sass-embedded": "^1.89.2",
     "vite": "^6.3.5"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.26.1",
+    "axios": "^1.10.0",
     "classnames": "^2.5.1",
     "lucide-react": "^0.522.0",
     "prop-types": "^15.8.1",

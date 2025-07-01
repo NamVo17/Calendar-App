@@ -1,25 +1,15 @@
+import { apiClient } from "@/config/axios"
+
 export const userService = {
   async getUsers() {
     try {
-      const savedData = localStorage.getItem("calendar-data")
-      if (savedData) {
-        const data = JSON.parse(savedData)
-        return data.users.map((user) => ({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          fullName: user.fullName,
-          createdAt: user.createdAt,
-        }))
-      }
-
-      const response = await fetch("/database.json")
+      const response = await apiClient.get("/users")
       if (!response.ok) {
         throw new Error("Failed to load user data")
       }
 
-      const data = await response.json()
-      return data.users.map((user) => ({
+      const users = response.data || []
+      return users.map((user) => ({
         id: user.id,
         username: user.username,
         email: user.email,
@@ -46,20 +36,7 @@ export const userService = {
 
   async createUser(userData) {
     try {
-      let data = { users: [], events: [] }
-
-      const savedData = localStorage.getItem("calendar-data")
-      if (savedData) {
-        data = JSON.parse(savedData)
-      } else {
-        const response = await fetch("/database.json")
-        if (response.ok) {
-          data = await response.json()
-        }
-      }
-
       const newUser = {
-        id: Math.max(0, ...data.users.map((u) => u.id)) + 1, 
         username: userData.username,
         email: userData.email,
         password: userData.password,
@@ -67,15 +44,18 @@ export const userService = {
         createdAt: new Date().toISOString().split("T")[0], 
       }
 
-      data.users.push(newUser)
-      localStorage.setItem("calendar-data", JSON.stringify(data))
+      const response = await apiClient.post("/users", newUser)
+      if (!response.ok) {
+        throw new Error("Failed to create user")
+      }
 
+      const createdUser = response.data
       return {
-        id: newUser.id,
-        username: newUser.username,
-        email: newUser.email,
-        fullName: newUser.fullName,
-        createdAt: newUser.createdAt,
+        id: createdUser.id,
+        username: createdUser.username,
+        email: createdUser.email,
+        fullName: createdUser.fullName,
+        createdAt: createdUser.createdAt,
       }
     } catch (error) {
       throw new Error(error.message || "Failed to create user")
@@ -84,27 +64,12 @@ export const userService = {
 
   async updateUser(userData) {
     try {
-      let data = { users: [], events: [] }
-
-      const savedData = localStorage.getItem("calendar-data")
-      if (savedData) {
-        data = JSON.parse(savedData)
-      } else {
-        const response = await fetch("/database.json")
-        if (response.ok) {
-          data = await response.json()
-        }
+      const response = await apiClient.put(`/users/${userData.id}`, userData)
+      if (!response.ok) {
+        throw new Error("Failed to update user")
       }
 
-      const userIndex = data.users.findIndex((u) => u.id === userData.id)
-      if (userIndex === -1) {
-        throw new Error("User not found")
-      }
-
-      const updatedUser = { ...data.users[userIndex], ...userData }
-      data.users[userIndex] = updatedUser
-      localStorage.setItem("calendar-data", JSON.stringify(data))
-
+      const updatedUser = response.data
       return {
         id: updatedUser.id,
         username: updatedUser.username,
@@ -119,20 +84,10 @@ export const userService = {
 
   async deleteUser(id) {
     try {
-      let data = { users: [], events: [] }
-
-      const savedData = localStorage.getItem("calendar-data")
-      if (savedData) {
-        data = JSON.parse(savedData)
-      } else {
-        const response = await fetch("/database.json")
-        if (response.ok) {
-          data = await response.json()
-        }
+      const response = await apiClient.delete(`/users/${id}`)
+      if (!response.ok) {
+        throw new Error("Failed to delete user")
       }
-
-      data.users = data.users.filter((u) => u.id !== id)
-      localStorage.setItem("calendar-data", JSON.stringify(data))
     } catch (error) {
       throw new Error(error.message || "Failed to delete user")
     }

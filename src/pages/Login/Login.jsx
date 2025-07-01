@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { loginAsync, registerAsync } from "@/store/slices/authSlice"
 import { Button } from "@/components/ui"
 import "./Login.scss"
+import { setCurrentUser } from "@/store/slices/userSlice"
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -31,12 +32,14 @@ export const Login = () => {
 
     try {
       if (authMode === "login") {
-        await dispatch(
+        const user = await dispatch(
           loginAsync({
             username: formData.username, 
             password: formData.password,
           }),
-        ).unwrap() 
+        ).unwrap()
+        dispatch(setCurrentUser(user))
+        navigate("/")
       } else {
         await dispatch(registerAsync(formData)).unwrap() // Pass toàn bộ formData
       }

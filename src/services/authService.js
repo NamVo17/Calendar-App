@@ -1,13 +1,10 @@
+import { apiClient } from "@/config/axios"
+
 export const authService = {
   async login(credentials) {
     try {
-      const response = await fetch("/database.json")
-      if (!response.ok) {
-        throw new Error("Failed to load user data")
-      }
-
-      const data = await response.json()
-      const users = data.users || [] 
+      const response = await apiClient.get("/users")
+      const users = response.data || [] 
 
       const user = users.find(
         (u) =>
@@ -36,13 +33,8 @@ export const authService = {
 
   async register(userData) {
     try {
-      const response = await fetch("/database.json")
-      if (!response.ok) {
-        throw new Error("Failed to load user data")
-      }
-
-      const data = await response.json()
-      const users = data.users || []
+      const response = await apiClient.get("/users")
+      const users = response.data || []
 
       const existingUser = users.find((u) => u.username === userData.username || u.email === userData.email)
 
@@ -59,9 +51,9 @@ export const authService = {
         createdAt: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
       }
 
-      const savedData = JSON.parse(localStorage.getItem("calendar-data") || JSON.stringify(data))
-      savedData.users.push(newUser)
-      localStorage.setItem("calendar-data", JSON.stringify(savedData))
+      // Tạo user mới trên server
+      const createResponse = await apiClient.post("/users", newUser)
+      // Không cần kiểm tra createResponse.ok với axios
 
       return {
         user: {

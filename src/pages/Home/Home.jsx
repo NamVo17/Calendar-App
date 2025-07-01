@@ -75,6 +75,12 @@ export const Home = () => {
     }
   }, [isAuthenticated, currentUser])
 
+  useEffect(() => {
+    // Khi vào trang, luôn focus vào tuần hiện tại
+    goToToday();
+    // eslint-disable-next-line
+  }, []);
+
   const getWeekDates = (startDate) => {
     const week = []
     const start = new Date(startDate)
@@ -446,7 +452,7 @@ export const Home = () => {
       </main>
 
       {/* Event Detail Modal - hiển thị chi tiết event khi click */}
-      <Modal isOpen={!!selectedEvent} onClose={clearSelectedEvent} title={selectedEvent?.title}   >
+      <Modal isOpen={!!selectedEvent} onClose={clearSelectedEvent} title={selectedEvent?.title} className={selectedEvent?.color || ''}>
         {selectedEvent && (
           <div className="home__event-details" >
             {/* Thời gian event */}

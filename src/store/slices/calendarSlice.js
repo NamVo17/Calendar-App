@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+const today = new Date();
 const initialState = {
   currentView: "week", 
-  currentDate: new Date(2025, 5, 22), 
-  selectedWeekStart: new Date(2025, 5, 22), 
+  currentDate: today, 
+  selectedWeekStart: (() => {
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - today.getDay());
+    return weekStart;
+  })(),
   isLoading: false, 
 }
 
@@ -26,13 +31,11 @@ export const calendarSlice = createSlice({
     },
     // Action để chuyển về hôm nay
     goToToday: (state) => {
-      const today = new Date(2025, 5, 22) // Set về June 22, 2025 (demo date)
-      state.currentDate = today
-      // Tính toán ngày bắt đầu tuần (Chủ nhật)
-      const weekStart = new Date(today)
-      const day = weekStart.getDay() // 0 = Chủ nhật, 1 = Thứ 2, ...
-      weekStart.setDate(today.getDate() - day) // Trừ đi số ngày để về Chủ nhật
-      state.selectedWeekStart = weekStart
+      const today = new Date(); // <-- ngày thực tế
+      state.currentDate = today;
+      const weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - today.getDay());
+      state.selectedWeekStart = weekStart;
     },
     // Action để chuyển về tuần trước
     goToPreviousWeek: (state) => {
