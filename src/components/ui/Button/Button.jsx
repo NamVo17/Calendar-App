@@ -3,11 +3,12 @@
 import classNames from "classnames"
 import PropTypes from "prop-types"
 import "./Button.scss"
+import { Button as AntdButton } from "antd"
 
 export const Button = ({
   children, 
   variant = "primary", 
-  size = "medium",
+  size = "middle",
   disabled = false, 
   loading = false, 
   icon, 
@@ -15,40 +16,32 @@ export const Button = ({
   className, 
   ...props 
 }) => {
-
-  const buttonClasses = classNames(
-    "button", 
-    `button--${variant}`, 
-    `button--${size}`, 
-    {
-      "button--disabled": disabled, 
-      "button--loading": loading, 
-    },
-    className, 
-  )
+  let type = "default"
+  if (variant === "primary") type = "primary"
+  if (variant === "danger") type = "primary"
+  if (variant === "ghost") type = "ghost"
 
   return (
-    <button
-      className={buttonClasses}
-      disabled={disabled || loading} 
-      onClick={onClick} 
-      {...props} 
+    <AntdButton
+      type={type}
+      danger={variant === "danger"}
+      size={size}
+      disabled={disabled}
+      loading={loading}
+      icon={icon}
+      onClick={onClick}
+      className={className}
+      {...props}
     >
-      {icon && <span className="button__icon">{icon}</span>}
-
-      <span className="button__text">{children}</span>
-
-
-      {loading && <span className="button__spinner">⟳</span>}
-    </button>
+      {children}
+    </AntdButton>
   )
 }
-
 
 Button.propTypes = {
   children: PropTypes.node.isRequired, 
   variant: PropTypes.oneOf(["primary", "secondary", "danger", "ghost"]), 
-  size: PropTypes.oneOf(["small", "medium", "large"]), 
+  size: PropTypes.oneOf(["small", "middle", "large"]), 
   disabled: PropTypes.bool, 
   loading: PropTypes.bool, 
   icon: PropTypes.node, 
