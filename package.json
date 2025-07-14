@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "echo 'no build script'",
+    "build": "vite build",
     "server": "cd server && npm start",
     "server:install": "cd server && npm install",
-    "dev:full": "concurrently \"npm run dev\" \"npm run server\""
+    "dev:full": "concurrently \"npm run dev\" \"npm run server\"",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.6.0",
