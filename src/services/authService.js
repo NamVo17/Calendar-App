@@ -1,19 +1,19 @@
-import { apiClient } from "@/config/axios"
+import axios from "axios";
 
 export const authService = {
   async login(credentials) {
     try {
-      const response = await apiClient.get("/users")
-      const users = response.data || [] 
+      const response = await axios.get("/database.json");
+      const users = response.data.users || [];
 
       const user = users.find(
         (u) =>
           (u.username === credentials.username || u.email === credentials.username) &&
           u.password === credentials.password,
-      )
+      );
 
       if (!user) {
-        throw new Error("Invalid username/email or password")
+        throw new Error("Invalid username/email or password");
       }
 
       return {
@@ -24,36 +24,37 @@ export const authService = {
           fullName: user.fullName,
           createdAt: user.createdAt,
         },
-        token: "mock-jwt-token", 
-      }
+        token: "mock-jwt-token",
+      };
     } catch (error) {
-      throw new Error(error.message || "Login failed")
+      throw new Error(error.message || "Login failed");
     }
   },
 
   async register(userData) {
     try {
-      const response = await apiClient.get("/users")
-      const users = response.data || []
+      // Lấy dữ liệu từ database.json
+      const response = await axios.get("/database.json");
+      const users = response.data.users || [];
 
-      const existingUser = users.find((u) => u.username === userData.username || u.email === userData.email)
-
+      // Kiểm tra user đã tồn tại
+      const existingUser = users.find((u) => u.username === userData.username || u.email === userData.email);
       if (existingUser) {
-        throw new Error("Username or email already exists")
+        throw new Error("Username or email already exists");
       }
 
+      // Tạo user mới
       const newUser = {
-        id: Math.max(0, ...users.map((u) => u.id)) + 1, // Generate ID mới
+        id: Math.max(0, ...users.map((u) => u.id)) + 1,
         username: userData.username,
         email: userData.email,
         password: userData.password,
         fullName: userData.fullName,
-        createdAt: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
-      }
+        createdAt: new Date().toISOString().split("T")[0],
+      };
 
-      // Tạo user mới trên server
-      const createResponse = await apiClient.post("/users", newUser)
-      // Không cần kiểm tra createResponse.ok với axios
+      // Lưu vào localStorage không giới hạn thời gian
+      localStorage.setItem("temp-users", JSON.stringify({ users: [...users, newUser] }));
 
       return {
         user: {
@@ -63,26 +64,26 @@ export const authService = {
           fullName: newUser.fullName,
           createdAt: newUser.createdAt,
         },
-        token: "mock-jwt-token", 
-      }
+        token: "mock-jwt-token",
+      };
     } catch (error) {
-      throw new Error(error.message || "Registration failed")
+      throw new Error(error.message || "Registration failed");
     }
   },
 
   async logout() {
-    return Promise.resolve()
+    return Promise.resolve();
   },
 
   async refreshToken() {
-    const currentUser = JSON.parse(localStorage.getItem("current-user") || "null")
+    const currentUser = JSON.parse(localStorage.getItem("current-user") || "null");
     if (!currentUser) {
-      throw new Error("No user found")
+      throw new Error("No user found");
     }
 
     return {
       user: currentUser,
-      token: "mock-jwt-token-refreshed", 
-    }
+      token: "mock-jwt-token-refreshed",
+    };
   },
 }

@@ -58,7 +58,7 @@ export const Modal = ({ isOpen, onClose, title, children, size = "medium", closa
             )}
           </div>
         )}
-        <div className="modal__content">{children}</div>
+        <div className="modal__content">{children || null}</div>
       </div>
     </div>
   )
@@ -68,7 +68,7 @@ Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired, 
   onClose: PropTypes.func.isRequired, 
   title: PropTypes.string, 
-  children: PropTypes.node.isRequired, 
+  children: PropTypes.node, 
   size: PropTypes.oneOf(["small", "medium", "large"]), 
   closable: PropTypes.bool, 
   className: PropTypes.string, 

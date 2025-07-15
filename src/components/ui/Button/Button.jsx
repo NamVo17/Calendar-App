@@ -1,6 +1,5 @@
 "use client"
 
-import classNames from "classnames"
 import PropTypes from "prop-types"
 import "./Button.scss"
 import { Button as AntdButton } from "antd"
@@ -13,17 +12,19 @@ export const Button = ({
   loading = false, 
   icon, 
   onClick, 
-  className, 
+  className,
+  type,
   ...props 
 }) => {
-  let type = "default"
-  if (variant === "primary") type = "primary"
-  if (variant === "danger") type = "primary"
-  if (variant === "ghost") type = "ghost"
+  let antdType = "default"
+  if (variant === "primary") antdType = "primary"
+  if (variant === "danger") antdType = "primary"
+  if (variant === "ghost") antdType = "ghost"
 
   return (
     <AntdButton
-      type={type}
+      type={antdType}
+      htmlType={type} // <-- Dùng htmlType cho submit/reset/button
       danger={variant === "danger"}
       size={size}
       disabled={disabled}

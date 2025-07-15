@@ -13,7 +13,7 @@ export const Home = () => {
   const dispatch = useDispatch()
 
   const { isAuthenticated, currentUser } = useAuth() // Authentication state
-  const { events, createEvent, selectEvent, selectedEvent, clearSelectedEvent } = useEvents() // Events state
+  const { events, createEvent, selectEvent, selectedEvent, clearSelectedEvent, deleteEvent } = useEvents() // Events state
   const {
     currentView,
     currentDate,
@@ -247,6 +247,16 @@ export const Home = () => {
     setCurrentDate(clickedDate)
   }
 
+  const handleDeleteEvent = async () => {
+    if (!selectedEvent) return;
+    try {
+      await deleteEvent(selectedEvent.id);
+      clearSelectedEvent();
+    } catch (error) {
+      alert("Failed to delete event");
+    }
+  };
+
   return (
     <div className="home">
       {/* Background Image */}
@@ -453,7 +463,7 @@ export const Home = () => {
 
       {/* Event Detail Modal - hiển thị chi tiết event khi click */}
       <Modal isOpen={!!selectedEvent} onClose={clearSelectedEvent} title={selectedEvent?.title} className={selectedEvent?.color || ''}>
-        {selectedEvent && (
+        {selectedEvent ? (
           <div className="home__event-details" >
             {/* Thời gian event */}
             <div className="home__event-detail ">
@@ -487,13 +497,24 @@ export const Home = () => {
             <div className="home__event-detail">
               <strong>Description:</strong> {selectedEvent.description}
             </div>
+            <div className="home__event-detail-actions" style={{ marginTop: 16 }}>
+              <Button
+                type="button"
+                variant="danger"
+                onClick={handleDeleteEvent}
+                style={{ float: "right" }}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-        )}
+        ) : null}
       </Modal>
 
       {/* Create Event Modal - form tạo event mới */}
       <Modal isOpen={showCreateEventModal} onClose={() => setShowCreateEventModal(false)} title="Create New Event">
-        <form onSubmit={handleSubmitEvent} className="home__create-event-form">
+        {showCreateEventModal && (
+          <form onSubmit={handleSubmitEvent} className="home__create-event-form">
           {/* Event Title */}
           <div className="home__form-group">
             <label className="home__form-label">Title</label>
@@ -637,6 +658,7 @@ export const Home = () => {
             <Button type="submit">Create Event</Button>
           </div>
         </form>
+        )}
       </Modal>
     </div>
   )
